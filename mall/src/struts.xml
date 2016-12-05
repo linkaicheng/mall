@@ -9,9 +9,16 @@
     <constant name="struts.devMode" value="false" />
 
     <package name="default" namespace="/" extends="struts-default">
+    <!-- 配置首页的action -->
 		<action name="index" class="indexAction">
 			<result name="index">/WEB-INF/jsp/index.jsp</result>
 		</action>
+		<!-- 配置用户模块的action -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="registPage">/WEB-INF/jsp/regist.jsp</result>
+			<result name="input">/WEB-INF/jsp/regist.jsp</result>
+		</action>
+		
     </package>
 
   
