@@ -53,8 +53,8 @@ public class MailUitls {
 			message.setSubject("来自购物天堂官方激活邮件");
 			// 设置邮件正文:
 			message.setContent(
-					"<h1>购物天堂官方激活邮件!点下面链接完成激活操作!</h1><h3><a href='http://192.168.3.16:8080/mall/user_active.action?code="
-							+ code + "'>http://192.168.36.103:8080/shop/user_active.action?code=" + code + "</a></h3>",
+					"<h1>购物天堂官方激活邮件!点下面链接完成激活操作!</h1><h3><a href='http://192.168.191.6:8080/mall/user_active.action?code="
+							+ code + "'>http://192.168.191.6:8080/shop/user_active.action?code=" + code + "</a></h3>",
 					"text/html;charset=UTF-8");
 			// 3.发送邮件:
 			Transport.send(message);

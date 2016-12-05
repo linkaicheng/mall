@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.change.mall.user.dao.UserDao;
 import com.change.mall.user.vo.User;
+import com.change.mall.utils.MailUitls;
 import com.change.mall.utils.UUIDUtils;
 
 /**
@@ -32,24 +33,24 @@ public class UserService {
 		user.setCode(code);
 		userDao.save(user);
 		// 发送激活邮件;
-		// MailUitls.sendMail(user.getEmail(), code);
+		MailUitls.sendMail(user.getEmail(), code);
 	}
 
-	// // 业务层根据激活码查询用户
-	// public User findByCode(String code) {
-	// return userDao.findByCode(code);
-	// }
-	//
-	// // 修改用户的状态的方法
-	// public void update(User existUser) {
-	// userDao.update(existUser);
-	// }
-	//
-	// // 用户登录的方法
-	// public User login(User user) {
-	// return userDao.login(user);
-	// }
-	//
+	// 业务层根据激活码查询用户
+	public User findByCode(String code) {
+		return userDao.findByCode(code);
+	}
+
+	// 修改用户的状态的方法
+	public void update(User existUser) {
+		userDao.update(existUser);
+	}
+
+	// 用户登录的方法
+	public User login(User user) {
+		return userDao.login(user);
+	}
+
 	// // 业务层用户查询所有
 	// public PageBean<User> findByPage(Integer page) {
 	// PageBean<User> pageBean = new PageBean<User>();
