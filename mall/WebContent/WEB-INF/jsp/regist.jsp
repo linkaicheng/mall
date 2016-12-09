@@ -119,8 +119,8 @@
 					</div>
 					<form id="registerForm"
 						action="${pageContext.request.contextPath }/user_regist.action"
-						method="post" novalidate="novalidate">
-						<!-- onsubmit="return checkForm();" -->
+						method="post" novalidate="novalidate" onsubmit="return checkForm();">
+						<!--  -->
 
 						<table>
 							<tbody>
