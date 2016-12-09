@@ -18,7 +18,7 @@ public class Product {
 	private Integer is_hot;
 	private Date pdate;
 	// 二级分类的外键:使用二级分类的对象.
-	private CategorySecond categorySecond;
+	private CategorySecond categorySecond = new CategorySecond();
 
 	public Integer getPid() {
 		return pid;

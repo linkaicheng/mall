@@ -68,7 +68,7 @@
 						所属的二级分类：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="csid">
+						<select name="categorySecond.csid">
 							<s:iterator var="cs" value="csList">
 								<option value="<s:property value="#cs.csid"/>" <s:if test="#cs.csid == model.categorySecond.csid">selected</s:if>><s:property value="#cs.csname"/></option>
 							</s:iterator>

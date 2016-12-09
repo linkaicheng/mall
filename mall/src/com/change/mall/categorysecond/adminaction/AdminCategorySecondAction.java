@@ -20,17 +20,17 @@ public class AdminCategorySecondAction extends ActionSupport implements ModelDri
 
 	// 模型驱动使用的对象
 	private CategorySecond categorySecond = new CategorySecond();
+
+	public CategorySecond getCategorySecond() {
+		return categorySecond;
+	}
+
+	public void setCategorySecond(CategorySecond categorySecond) {
+		this.categorySecond = categorySecond;
+	}
+
 	// 接收page参数:
 	private Integer page;
-	private Integer cid;
-
-	public Integer getCid() {
-		return cid;
-	}
-
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
 
 	// 注入二级Service
 	private CategorySecondService categorySecondService;
@@ -74,15 +74,15 @@ public class AdminCategorySecondAction extends ActionSupport implements ModelDri
 
 	// 添加二级分类的方法:
 	public String save() {
-		Category category = new Category();
-		category.setCid(cid);
-		categorySecond.setCategory(category);
+
 		categorySecondService.save(categorySecond);
 		return "saveSuccess";
 	}
 
 	// 删除二级分类的方法:
 	public String delete() {
+		// 级联删除前要先查询
+		categorySecond = categorySecondService.findByCsid(categorySecond.getCsid());
 		categorySecondService.delete(categorySecond);
 		return "deleteSuccess";
 	}
@@ -101,9 +101,7 @@ public class AdminCategorySecondAction extends ActionSupport implements ModelDri
 
 	// 修改二级分类的方法:
 	public String update() {
-		Category category = new Category();
-		category.setCid(cid);
-		categorySecond.setCategory(category);
+
 		categorySecondService.update(categorySecond);
 		return "updateSuccess";
 	}

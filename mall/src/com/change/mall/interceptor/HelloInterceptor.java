@@ -11,7 +11,7 @@ import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
  * 权限拦截器:
  *
  */
-public class PrivilegeInterceptor extends MethodFilterInterceptor {
+public class HelloInterceptor extends MethodFilterInterceptor {
 
 	@Override
 	protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
@@ -21,12 +21,11 @@ public class PrivilegeInterceptor extends MethodFilterInterceptor {
 			// 已经登录过
 			return actionInvocation.invoke();
 		} else {
-			// 跳转到登录页ss面:
+			// 跳转到登录页面:
 			ActionSupport support = (ActionSupport) actionInvocation.getAction();
 			support.addActionError("您还没有登录!没有权限访问!");
 			return ActionSupport.LOGIN;
 		}
-
 	}
 
 }

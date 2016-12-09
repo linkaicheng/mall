@@ -32,15 +32,6 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 
 	// 接收page参数
 	private Integer page;
-	private Integer csid;
-
-	public Integer getCsid() {
-		return csid;
-	}
-
-	public void setCsid(Integer csid) {
-		this.csid = csid;
-	}
 
 	public void setPage(Integer page) {
 		this.page = page;
@@ -100,9 +91,6 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 	public String save() throws IOException {
 		// 将提交的数据添加到数据库中.
 		product.setPdate(new Date());
-		CategorySecond categorySecond = new CategorySecond();
-		categorySecond.setCsid(csid);
-		product.setCategorySecond(categorySecond);
 		// product.setImage(image);
 		if (upload != null) {
 			// 将商品图片上传到服务器上.
@@ -149,9 +137,6 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 	public String update() throws IOException {
 		// 将信息修改到数据库
 		product.setPdate(new Date());
-		CategorySecond categorySecond = new CategorySecond();
-		categorySecond.setCsid(csid);
-		product.setCategorySecond(categorySecond);
 
 		// 上传:
 		if (upload != null) {
