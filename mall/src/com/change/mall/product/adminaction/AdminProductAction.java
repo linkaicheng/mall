@@ -2,8 +2,10 @@ package com.change.mall.product.adminaction;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
@@ -56,6 +58,18 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 	private String uploadFileName;
 	private String uploadContentType;
 
+	public File getUpload() {
+		return upload;
+	}
+
+	public String getUploadFileName() {
+		return uploadFileName;
+	}
+
+	public String getUploadContentType() {
+		return uploadContentType;
+	}
+
 	public void setUpload(File upload) {
 		this.upload = upload;
 	}
@@ -95,13 +109,20 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 		if (upload != null) {
 			// 将商品图片上传到服务器上.
 			// 获得上传图片的服务器端路径.
-			String path = ServletActionContext.getServletContext().getRealPath("/products");
+			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			String path = properties.getProperty("uploadProductImgPath");
 			// 创建文件类型对象:
-			File diskFile = new File(path + "//" + uploadFileName);
-
+			File diskFile = new File(path + "\\products\\" + uploadFileName);
 			// 文件上传:
 			FileUtils.copyFile(upload, diskFile);
-
+			// 也保存一份到服务器
+			path = ServletActionContext.getServletContext().getRealPath("/products");
+			// 创建文件类型对象:
+			File diskFile2 = new File(path + "//" + uploadFileName);
+			// 文件上传:
+			FileUtils.copyFile(upload, diskFile2);
 			product.setImage("products/" + uploadFileName);
 		}
 		productService.save(product);
@@ -113,8 +134,17 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 		// 根据id查询商品信息
 		product = productService.findByPid(product.getPid());
 		// 删除商品的图片:
-		String path = ServletActionContext.getServletContext().getRealPath("/" + product.getImage());
-		File file = new File(path);
+		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+		Properties properties = new Properties();
+		try {
+			properties.load(inputStream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String path = properties.getProperty("uploadProductImgPath");
+		// 创建文件类型对象:
+		File file = new File(path + "\\" + product.getImage());
 		file.delete();
 		// 删除数据库中商品记录:
 		productService.delete(product);
@@ -137,23 +167,51 @@ public class AdminProductAction extends ActionSupport implements ModelDriven<Pro
 	public String update() throws IOException {
 		// 将信息修改到数据库
 		product.setPdate(new Date());
-
 		// 上传:
 		if (upload != null) {
-			String delPath = ServletActionContext.getServletContext().getRealPath("/" + product.getImage());
-			File file = new File(delPath);
-			file.delete();
-			// 获得上传图片的服务器端路径.
-			String path = ServletActionContext.getServletContext().getRealPath("/products");
+			// 删除商品的图片:
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+			Properties pro = new Properties();
+			try {
+				pro.load(is);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String pa = pro.getProperty("uploadProductImgPath");
 			// 创建文件类型对象:
-			File diskFile = new File(path + "//" + uploadFileName);
+			File file = new File(pa + "\\" + product.getImage());
+			file.delete();
+
+			// String delPath =
+			// ServletActionContext.getServletContext().getRealPath("/" +
+			// product.getImage());
+			// File file = new File(delPath);
+			// file.delete();
+			// 获得上传图片的服务器端路径.如果路径选择的是servletContext.getRealPath("/files/" +
+			// FileName)的方式，会把上传的文件保存到服务器路径下，
+			// 每次重器服务器都会导致，文件被删除，为了方便测试，这里使用的是服务器外的一个磁盘路径
+			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			String path = properties.getProperty("uploadProductImgPath");
+			// 创建文件类型对象:
+			File diskFile = new File(path + "\\products\\" + uploadFileName);
 			// 文件上传:
 			FileUtils.copyFile(upload, diskFile);
+			// 也保存一份到服务器
+			path = ServletActionContext.getServletContext().getRealPath("/products");
+			// 创建文件类型对象:
+			File diskFile2 = new File(path + "//" + uploadFileName);
+			// 文件上传:
+			FileUtils.copyFile(upload, diskFile2);
 
 			product.setImage("products/" + uploadFileName);
+
 		}
 		productService.update(product);
 		// 页面跳转
 		return "updateSuccess";
+
 	}
 }

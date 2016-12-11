@@ -57,6 +57,9 @@
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
 						<input type="file" name="upload" />
+						<s:fielderror name="upload" ></s:fielderror>
+        				<s:actionerror/>
+						
 					</td>
 				</tr>
 				<tr>
